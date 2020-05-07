@@ -1,7 +1,8 @@
 <template>
+  <div class="col-1">
   <div class="box">
     <span class="letter">{{ letter }}</span>
-  </div>
+  </div></div>
 </template>
 
 <script>
@@ -24,5 +25,8 @@ export default {
     top: 50%; left: 50%;
     transform: translate(-50%,-50%);
     text-transform: uppercase;
+  }
+  .col-1 {
+    width: 33px;
   }
 </style>

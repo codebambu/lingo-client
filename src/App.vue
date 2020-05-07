@@ -1,6 +1,9 @@
 <template>
   <div id="app" v-if="word">
-    <LetterBox v-for="i in wordLength" :key="i" :letter="word.charAt(i - 1)" />
+    <div class="row">
+      <LetterBox v-for="i in wordLength" :key="i" :letter="word.charAt(i - 1)" />
+    </div>
+    
   </div>
 </template>
 
@@ -28,3 +31,6 @@ export default {
 }
 </script>
 
+<style>
+
+</style>
