@@ -1,28 +1,30 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" v-if="word">
+    <LetterBox v-for="i in wordLength" :key="i" :letter="word.charAt(i - 1)" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LetterBox from './components/LetterBox.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    LetterBox
+  },
+  data: function () {
+    return {
+      word: null
+    }
+  },
+  computed: {
+    wordLength: function () {
+      return this.word.length
+    }
+  },
+  mounted: function () {
+    this.word = 'test'
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
