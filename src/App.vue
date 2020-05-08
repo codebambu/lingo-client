@@ -8,7 +8,7 @@
           :status="letterObject.status"
         />
       </div>
-      <input type="text">
+      <input maxlength="5" type="text" required>
     </div>
   </div>
 </template>
@@ -145,8 +145,10 @@ export default {
   input {
       text-transform: uppercase;
       font-size: 16px;
-      letter-spacing: 0.8em;
+      letter-spacing: 1em;
       width: calc(30px * 5 + 8px);
+      text-indent: 1em;
+      text-align:center;
   }
   .wrapper {
     position: fixed;
