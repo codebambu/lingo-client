@@ -115,9 +115,17 @@ export default {
       return wordObject
     },
     submit: function (event) {
+      const value = event.srcElement.value.toLowerCase()
+      
+      // stop if guess length does not match expected word length
+      // stop if first characters do not match
+      // stop if amount of tries reaches max amount of tries
+      if (value.length !== this.word.length || value.charAt(0) !== this.word.charAt(0) || this.tries == this.maxTries) {
+        return
+      }
+
       this.tries = this.tries + 1
 
-      const value = event.srcElement.value.toLowerCase()
       const guessMaskObject = this.buildMask(value)
       const guessWordObject = this.buildWordObject(value, guessMaskObject)
       

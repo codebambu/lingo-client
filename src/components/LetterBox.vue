@@ -39,6 +39,7 @@ export default {
     top: 50%; left: 50%;
     transform: translate(-50%,-50%);
     text-transform: uppercase;
+    
   }
   .col-1 {
     width: 33px;
@@ -46,11 +47,11 @@ export default {
   .inword {
     background: gold;
     border: 1px solid orange;
-    border-radius: 99px;
-    padding-left: 9px;
-    padding-right: 9px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    text-align: center;
+    
     text-shadow: 1px 1px 0 orange,
     -1px 1px 0 orange,
     1px -1px 0 orange,
