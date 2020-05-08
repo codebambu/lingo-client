@@ -115,8 +115,15 @@ export default {
       return wordObject
     },
     submit: function (event) {
+      this.tries = this.tries + 1
+
       const value = event.srcElement.value.toLowerCase()
-      console.log(value)
+      const guessMaskObject = this.buildMask(value)
+      const guessWordObject = this.buildWordObject(value, guessMaskObject)
+      
+      this.$set(this.rows, this.tries -1, guessWordObject)
+
+      event.srcElement.value = ''
     }
   },
   computed: {
