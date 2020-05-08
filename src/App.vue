@@ -8,7 +8,7 @@
           :status="letterObject.status"
         />
       </div>
-      <input maxlength="5" type="text" required>
+      <input v-on:keyup.enter="submit" maxlength="5" type="text" required>
     </div>
   </div>
 </template>
@@ -25,6 +25,8 @@ export default {
     // example mask: 'correct-incorrect-inword-period'
     return {
       word: null,
+      maxTries: null,
+      tries: null,
       rows: [
       ]
     }
@@ -111,6 +113,10 @@ export default {
       }
 
       return wordObject
+    },
+    submit: function (event) {
+      const value = event.srcElement.value.toLowerCase()
+      console.log(value)
     }
   },
   computed: {
@@ -120,7 +126,8 @@ export default {
   },
   mounted: function () {
     // how many tries do oy get?
-    const tries = 5
+    this.maxTries = 5
+    this.tries = 0
 
     // get a random word 
     const word = 'lingo'
@@ -133,7 +140,7 @@ export default {
     this.rows.push(this.buildWordObject(word, this.buildInitialMask(word)))
 
     // push period masked row for the rest
-    for (var i = 0; i < tries -1; i++) {
+    for (var i = 0; i < this.maxTries -1; i++) {
       this.rows.push(this.buildWordObject(word, this.buildPeriodMask(word)))
     }
   }
