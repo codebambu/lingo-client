@@ -117,16 +117,23 @@ export default {
     }
   },
   mounted: function () {
+    // how many tries do oy get?
+    const tries = 5
+
+    // get a random word 
+    const word = 'test'
+
     // set the word to be guessed
-    this.word = 'test'
-
-    this.rows.push(this.buildWordObject('test', this.buildInitialMask('test')))
-    this.rows.push(this.buildWordObject('team', this.buildMask('team')))
-    this.rows.push(this.buildWordObject('tape', this.buildMask('tape')))
-
-    this.rows.push(this.buildWordObject('tset', this.buildMask('tset')))
-    this.rows.push(this.buildWordObject('test', this.buildPeriodMask('test')))
   
+    this.word = word
+
+    // push inital row
+    this.rows.push(this.buildWordObject(word, this.buildInitialMask(word)))
+
+    // push period masked row for the rest
+    for (var i = 0; i < tries -1; i++) {
+      this.rows.push(this.buildWordObject(word, this.buildPeriodMask(word)))
+    }
   }
   
 }
