@@ -32,6 +32,7 @@ export default {
     }
   },
   methods: {
+    // TODO: modify this to accept a lettersArray instead of word
     buildMask: function(word) {
       let vm = this
 
@@ -56,6 +57,7 @@ export default {
       
       return mask
     },
+    // TODO: modify this to accept a lettersArray instead of word
     buildInitialMask: function(word) {
       let vm = this
 
@@ -76,6 +78,7 @@ export default {
       
       return mask
     },
+    // TODO: modify this to accept a lettersArray instead of word
     buildPeriodMask: function(word) {
       let vm = this
 
@@ -92,6 +95,7 @@ export default {
       
       return mask
     },
+    // TODO: modify this toa ccept a lettersArray instead of word
     buildWordObject: function(word, mask) {
       let vm = this
 
@@ -132,6 +136,21 @@ export default {
       this.$set(this.rows, this.tries -1, guessWordObject)
 
       event.srcElement.value = ''
+    },
+    buildLettersArray: function (word) {
+    let lettersArray = []
+
+    for (var i = 0; i < word.length; i++) {
+      if (word.charAt(i) == 'i' && word.charAt(i + 1) == 'j') {
+        lettersArray.push('ij')
+        i++
+        i++
+      }
+
+      lettersArray.push(word.charAt(i))
+    }
+
+    return lettersArray
     }
   },
   computed: {
@@ -145,12 +164,12 @@ export default {
     this.tries = 0
 
     // get a random word 
-    const word = 'lingo'
+    const word = 'ijskasteelijsblokken'
 
     // set the word to be guessed
   
     this.word = word
-
+    console.log(this.buildLettersArray(word))
     // push inital row
     this.rows.push(this.buildWordObject(word, this.buildInitialMask(word)))
 
@@ -172,6 +191,7 @@ export default {
       text-indent: 1em;
       text-align:center;
   }
+
   .wrapper {
     position: fixed;
     left: 5%;
