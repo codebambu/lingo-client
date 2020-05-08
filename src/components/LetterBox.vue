@@ -32,6 +32,7 @@ export default {
     position: relative;
     background: royalblue;
     margin-bottom: 1px;
+    font-family: 'Open Sans', sans-serif;
   }
   .letter {
     position: absolute;

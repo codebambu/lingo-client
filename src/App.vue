@@ -1,13 +1,15 @@
 <template>
   <div id="app" v-if="word">
-    <div class="row" v-for="(wordObject, index) in rows" :key="index">
-      <LetterBox v-for="letterObject in wordObject.letters"
-        :key="letterObject.index"
-        :letter="letterObject.letter"
-        :status="letterObject.status"
-      />
+    <div class="wrapper">
+      <div class="row" v-for="(wordObject, index) in rows" :key="index">
+        <LetterBox v-for="letterObject in wordObject.letters"
+          :key="letterObject.index"
+          :letter="letterObject.letter"
+          :status="letterObject.status"
+        />
+      </div>
+      <input type="text">
     </div>
-    <input type="text">
   </div>
 </template>
 
@@ -121,7 +123,7 @@ export default {
     const tries = 5
 
     // get a random word 
-    const word = 'test'
+    const word = 'lingo'
 
     // set the word to be guessed
   
@@ -140,5 +142,17 @@ export default {
 </script>
 
 <style>
-
+  input {
+      text-transform: uppercase;
+      font-size: 16px;
+      letter-spacing: 0.8em;
+      width: calc(30px * 5 + 8px);
+  }
+  .wrapper {
+    position: fixed;
+    left: 5%;
+    top: 5%;
+    display: inline-block;
+    border: 3px solid transparent;
+  }
 </style>

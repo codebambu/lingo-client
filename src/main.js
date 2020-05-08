@@ -3,6 +3,7 @@ import App from './App.vue'
 
 require('@/assets/css/minigrid-min.css')
 
+
 Vue.config.productionTip = false
 
 new Vue({
