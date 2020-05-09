@@ -8,7 +8,7 @@
           :status="letterObject.status"
         />
       </div>
-      <input v-on:keyup.enter="submit" maxlength="5" type="text" required>
+      <input :style="{ width: inputWidth + 'px' }" v-on:keyup.enter="submit" :maxlength="maxLength" type="text" required>
     </div>
   </div>
 </template>
@@ -27,28 +27,30 @@ export default {
       word: null,
       maxTries: null,
       tries: null,
+      maxLength: 0,
       rows: [
+
       ]
     }
   },
   methods: {
-    // TODO: modify this to accept a lettersArray instead of word
-    buildMask: function(word) {
+    buildMask: function(lettersArray) {
       let vm = this
+      const vmWordLettersArray = this.buildLettersArray(vm.word)
 
       // ensure word length matches vm.word length
-      if (word.length !== vm.word.length) {
+      if (lettersArray.length !== vmWordLettersArray.length) {
         return null;
       }
       
       let mask = []
       
-      for (var i = 0; i < word.length; i++) {
-        let wordLetter = word.charAt(i)
-
-        if (vm.word.includes(wordLetter) && vm.word.charAt(i) == wordLetter) {
+      for (var i = 0; i < lettersArray.length; i++) {
+        let wordLetter = lettersArray[i]
+  
+        if (vmWordLettersArray.includes(wordLetter) && vmWordLettersArray[i] == wordLetter) {
             mask.push('correct')
-        } else if (vm.word.includes(wordLetter)) {
+        } else if (vmWordLettersArray.includes(wordLetter)) {
             mask.push('inword')
         } else {
           mask.push('incorrect')
@@ -57,18 +59,18 @@ export default {
       
       return mask
     },
-    // TODO: modify this to accept a lettersArray instead of word
-    buildInitialMask: function(word) {
+    buildInitialMask: function(lettersArray) {
       let vm = this
+      const vmWordLettersArray = this.buildLettersArray(vm.word)
 
       // ensure word length matches vm.word length
-      if (word.length !== vm.word.length) {
+      if (lettersArray.length !== vmWordLettersArray.length) {
         return null;
       }
       
       let mask = []
       
-      for (var i = 0; i < word.length; i++) {
+      for (var i = 0; i < lettersArray.length; i++) {
         if (i == 0) {
           mask.push('correct')
         }
@@ -78,39 +80,40 @@ export default {
       
       return mask
     },
-    // TODO: modify this to accept a lettersArray instead of word
-    buildPeriodMask: function(word) {
+    buildPeriodMask: function(lettersArray) {
       let vm = this
+      const vmWordLettersArray = this.buildLettersArray(vm.word)
 
       // ensure word length matches vm.word length
-      if (word.length !== vm.word.length) {
+      if (lettersArray.length !== vmWordLettersArray.length) {
         return null;
       }
       
       let mask = []
       
-      for (var i = 0; i < word.length; i++) {
+      for (var i = 0; i < vmWordLettersArray.length; i++) {
         mask.push('period')
       }
       
       return mask
     },
     // TODO: modify this toa ccept a lettersArray instead of word
-    buildWordObject: function(word, mask) {
+    buildWordObject: function(lettersArray, mask) {
       let vm = this
+      const vmWordLettersArray = this.buildLettersArray(vm.word)
 
-      if (word.length !== vm.word.length) {
+      if (lettersArray.length !== vmWordLettersArray.length) {
         return null
       }
 
-      const wordObject = {
+      let wordObject = {
         letters: []
       }
 
-      for (var i = 0; i < word.length; i++) {
+      for (var i = 0; i < lettersArray.length; i++) {
         let letterObject = {};
 
-        letterObject.letter = word.charAt(i)
+        letterObject.letter = lettersArray[i]
         letterObject.status = mask[i]
 
         wordObject.letters.push(letterObject)
@@ -120,42 +123,47 @@ export default {
     },
     submit: function (event) {
       const value = event.srcElement.value.toLowerCase()
-      
+      const valueLettersArray = this.buildLettersArray(value)
+      const vmWordLettersArray = this.buildLettersArray(this.word)
+
       // stop if guess length does not match expected word length
       // stop if first characters do not match
       // stop if amount of tries reaches max amount of tries
-      if (value.length !== this.word.length || value.charAt(0) !== this.word.charAt(0) || this.tries == this.maxTries) {
+      if (valueLettersArray.length !== vmWordLettersArray.length || valueLettersArray[0] !== vmWordLettersArray[0] || this.tries == this.maxTries) {
         return
       }
 
       this.tries = this.tries + 1
 
-      const guessMaskObject = this.buildMask(value)
-      const guessWordObject = this.buildWordObject(value, guessMaskObject)
+      const guessMaskObject = this.buildMask(valueLettersArray)
+      const guessWordObject = this.buildWordObject(valueLettersArray, guessMaskObject)
       
       this.$set(this.rows, this.tries -1, guessWordObject)
 
       event.srcElement.value = ''
     },
     buildLettersArray: function (word) {
-    let lettersArray = []
+      let lettersArray = []
 
-    for (var i = 0; i < word.length; i++) {
-      if (word.charAt(i) == 'i' && word.charAt(i + 1) == 'j') {
-        lettersArray.push('ij')
-        i++
-        i++
+      for (var i = 0; i < word.length; i++) {
+        if (word.charAt(i) == 'i' && word.charAt(i + 1) == 'j') {
+          lettersArray.push('ij')
+          i++
+          i++
+        }
+
+        lettersArray.push(word.charAt(i))
       }
 
-      lettersArray.push(word.charAt(i))
-    }
-
-    return lettersArray
+      return lettersArray
     }
   },
   computed: {
-    wordLength: function () {
-      return this.word.length
+    inputWidth: function () {
+      const base = (this.buildLettersArray(this.word).length * 30) + 2
+      const letterCount = this.buildLettersArray(this.word).length
+      const result = ((letterCount - 2) * 3) - 2
+      return base + result
     }
   },
   mounted: function () {
@@ -164,18 +172,25 @@ export default {
     this.tries = 0
 
     // get a random word 
-    const word = 'ijskasteelijsblokken'
+    const word = 'ijblokken'
 
     // set the word to be guessed
-  
     this.word = word
-    console.log(this.buildLettersArray(word))
+    const wordLettersArray = this.buildLettersArray(word)
+    
+    // set the maxlength
+    if (wordLettersArray.includes('ij')) {
+      this.maxLength = wordLettersArray.length + 1
+    } else {
+      this.maxLength = wordLettersArray.length
+    }
+    
     // push inital row
-    this.rows.push(this.buildWordObject(word, this.buildInitialMask(word)))
+    this.rows.push(this.buildWordObject(wordLettersArray, this.buildInitialMask(wordLettersArray)))
 
     // push period masked row for the rest
     for (var i = 0; i < this.maxTries -1; i++) {
-      this.rows.push(this.buildWordObject(word, this.buildPeriodMask(word)))
+      this.rows.push(this.buildWordObject(wordLettersArray, this.buildPeriodMask(wordLettersArray)))
     }
   }
   
@@ -187,7 +202,6 @@ export default {
       text-transform: uppercase;
       font-size: 16px;
       letter-spacing: 1em;
-      width: calc(30px * 5 + 8px);
       text-indent: 1em;
       text-align:center;
   }
