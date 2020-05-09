@@ -8,7 +8,7 @@
           :status="letterObject.status"
         />
       </div>
-      <input :style="{ width: inputWidth + 'px' }" v-on:keyup.enter="submit" :maxlength="maxLength" type="text" required>
+      <input :style="{ width: inputWidth + 'px' }" v-on:input="calculateMaxlength" v-on:keyup.enter="submit" :maxlength="maxLength" type="text" required>
     </div>
   </div>
 </template>
@@ -161,6 +161,16 @@ export default {
       return lettersArray.filter(function(letter) {
         return letter !== ''
       })
+    },
+    calculateMaxlength: function (e) {
+      const value = e.srcElement.value
+      const wordLettersArray = this.buildLettersArray(this.word)
+  
+      if (value.includes('ij')) {
+        this.maxLength = wordLettersArray.length + 1
+      } else {
+        this.maxLength = wordLettersArray.length
+      }
     }
   },
   computed: {
@@ -181,13 +191,13 @@ export default {
     this.tries = 0
 
     // get a random word 
-    const word = 'opzij'
+    const word = 'balije'
 
     // set the word to be guessed
     this.word = word
     const wordLettersArray = this.buildLettersArray(word)
 
-    // set the maxlength
+    // set the initial maxlength
     if (wordLettersArray.includes('ij')) {
       this.maxLength = wordLettersArray.length + 1
     } else {
