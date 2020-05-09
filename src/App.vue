@@ -160,10 +160,14 @@ export default {
   },
   computed: {
     inputWidth: function () {
-      const base = (this.buildLettersArray(this.word).length * 30) + 2
+      // 3:00 AM math
+      // 30 = letter tile width in px
+      // 2 = unknown
+      // 3 = unknown
       const letterCount = this.buildLettersArray(this.word).length
-      const result = ((letterCount - 2) * 3) - 2
-      return base + result
+      const part1 = (letterCount * 30) + 2
+      const part2 = ((letterCount - 2) * 3) - 2
+      return part1 + part2
     }
   },
   mounted: function () {
@@ -172,7 +176,7 @@ export default {
     this.tries = 0
 
     // get a random word 
-    const word = 'ijblokken'
+    const word = 'ijsblokken'
 
     // set the word to be guessed
     this.word = word
