@@ -158,7 +158,9 @@ export default {
         lettersArray.push(word.charAt(i))
       }
 
-      return lettersArray
+      return lettersArray.filter(function(letter) {
+        return letter !== ''
+      })
     }
   },
   computed: {
@@ -179,12 +181,12 @@ export default {
     this.tries = 0
 
     // get a random word 
-    const word = 'ijsblokjes'
+    const word = 'opzij'
 
     // set the word to be guessed
     this.word = word
     const wordLettersArray = this.buildLettersArray(word)
-    
+
     // set the maxlength
     if (wordLettersArray.includes('ij')) {
       this.maxLength = wordLettersArray.length + 1
