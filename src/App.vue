@@ -37,6 +37,7 @@ export default {
     buildMask: function(lettersArray) {
       let vm = this
       const vmWordLettersArray = this.buildLettersArray(vm.word)
+      let includesArray = []
 
       // ensure word length matches vm.word length
       if (lettersArray.length !== vmWordLettersArray.length) {
@@ -50,8 +51,10 @@ export default {
   
         if (vmWordLettersArray.includes(wordLetter) && vmWordLettersArray[i] == wordLetter) {
             mask.push('correct')
-        } else if (vmWordLettersArray.includes(wordLetter)) {
+            includesArray.push(wordLetter)
+        } else if (vmWordLettersArray.includes(wordLetter) && includesArray.includes(wordLetter) == false) {
             mask.push('inword')
+            includesArray.push(wordLetter)
         } else {
           mask.push('incorrect')
         }
@@ -176,7 +179,7 @@ export default {
     this.tries = 0
 
     // get a random word 
-    const word = 'ijsblokken'
+    const word = 'ijsblokjes'
 
     // set the word to be guessed
     this.word = word
