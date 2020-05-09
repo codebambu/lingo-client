@@ -53,8 +53,14 @@ export default {
             mask.push('correct')
             includesArray.push(wordLetter)
         } else if (vmWordLettersArray.includes(wordLetter) && includesArray.includes(wordLetter) == false) {
+
+          if (vmWordLettersArray[i] !== wordLetter) {
             mask.push('inword')
-            includesArray.push(wordLetter)
+            includesArray.push(wordLetter)  
+          } else {
+            mask.push('incorrect')
+          }
+            
         } else {
           mask.push('incorrect')
         }
@@ -183,21 +189,21 @@ export default {
       const part1 = (letterCount * 30) + 2
       const part2 = ((letterCount - 2) * 3) - 2
       return part1 + part2
-    }
+    },
+
   },
-  mounted: function () {
-    // how many tries do oy get?
+  mounted: async function () {
+    const response = await fetch('http://127.0.0.1:4567/word/5')
+    const json = await response.json()
+    this.word = json.word.toLowerCase()
+
+    // max amount of tries
     this.maxTries = 5
     this.tries = 0
 
-    // get a random word 
-    const word = 'balije'
+    const wordLettersArray = this.buildLettersArray(this.word)
 
-    // set the word to be guessed
-    this.word = word
-    const wordLettersArray = this.buildLettersArray(word)
-
-    // set the initial maxlength
+    // // set the initial maxlength
     if (wordLettersArray.includes('ij')) {
       this.maxLength = wordLettersArray.length + 1
     } else {
@@ -212,7 +218,6 @@ export default {
       this.rows.push(this.buildWordObject(wordLettersArray, this.buildPeriodMask(wordLettersArray)))
     }
   }
-  
 }
 </script>
 
