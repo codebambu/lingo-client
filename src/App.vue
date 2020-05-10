@@ -38,6 +38,7 @@ export default {
       let vm = this
       const vmWordLettersArray = this.buildLettersArray(vm.word)
       let includesArray = []
+      let inwordArray = []
 
       // ensure word length matches vm.word length
       if (lettersArray.length !== vmWordLettersArray.length) {
@@ -61,8 +62,9 @@ export default {
         let wordLetter = lettersArray[j]
 
         if (mask[j] == 'incorrect') {
-          if (!includesArray.includes(wordLetter)) {
+          if (vmWordLettersArray.includes(wordLetter)  && !includesArray.includes(wordLetter) && !inwordArray.includes(wordLetter)) {
             mask[j] = 'inword'
+            inwordArray.push(wordLetter)
           }
         }
       }
