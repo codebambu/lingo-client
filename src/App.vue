@@ -52,17 +52,18 @@ export default {
         if (vmWordLettersArray.includes(wordLetter) && vmWordLettersArray[i] == wordLetter) {
             mask.push('correct')
             includesArray.push(wordLetter)
-        } else if (vmWordLettersArray.includes(wordLetter) && includesArray.includes(wordLetter) == false) {
-
-          if (vmWordLettersArray[i] !== wordLetter) {
-            mask.push('inword')
-            includesArray.push(wordLetter)  
-          } else {
-            mask.push('incorrect')
-          }
-            
         } else {
           mask.push('incorrect')
+        }
+      }
+
+      for (var j = 0; j < lettersArray.length; j++) {
+        let wordLetter = lettersArray[j]
+
+        if (mask[j] == 'incorrect') {
+          if (!includesArray.includes(wordLetter)) {
+            mask[j] = 'inword'
+          }
         }
       }
       
@@ -196,7 +197,7 @@ export default {
     const response = await fetch('http://127.0.0.1:4567/word/5')
     const json = await response.json()
     this.word = json.word.toLowerCase()
-
+    
     // max amount of tries
     this.maxTries = 5
     this.tries = 0
