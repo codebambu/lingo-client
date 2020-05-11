@@ -184,10 +184,6 @@ export default {
   },
   computed: {
     inputWidth: function () {
-      // 3:00 AM math
-      // 30 = letter tile width in px
-      // 2 = unknown
-      // 3 = unknown
       const letterCount = this.buildLettersArray(this.word).length
       const part1 = (letterCount * 30) + 2
       const part2 = ((letterCount - 2) * 3) - 2
@@ -225,6 +221,9 @@ export default {
 </script>
 
 <style>
+  html {
+    background:white;
+  }
   input {
       text-transform: uppercase;
       font-size: 16px;
