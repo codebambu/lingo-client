@@ -1,14 +1,22 @@
 <template>
-  <div id="app" v-if="word">
-      <div class="wrapper">
-          <div class="row" v-for="(wordObject, index) in rows" :key="index">
-              <LetterBox v-for="letterObject in wordObject.letters" :key="letterObject.index"
-                  :letter="letterObject.letter" :status="letterObject.status" />
-          </div>
-          <input :style="{ width: inputWidth + 'px' }" v-on:input="calculateMaxlength" v-on:keyup.enter="submit"
-              :maxlength="maxLength" type="text" required>
-      </div>
-  </div>
+    <div id="app" v-if="word">
+        <div class="wrapper">
+            <div class="row" v-for="(wordObject, index) in rows" :key="index">
+                <LetterBox v-for="letterObject in wordObject.letters"
+                    :key="letterObject.index"
+                    :letter="letterObject.letter"
+                    :status="letterObject.status"
+                />
+            </div>
+            <input :style="{ width: inputWidth + 'px' }"
+                v-on:input="calculateMaxlength"
+                v-on:keyup.enter="submit"
+                :maxlength="maxLength"
+                type="text"
+                required
+            >
+        </div>
+    </div>
 </template>
 
 <script>
@@ -219,23 +227,23 @@ export default {
 </script>
 
 <style>
-  html {
-      background: white;
-  }
+    html {
+        background: white;
+    }
 
-  input {
-      text-transform: uppercase;
-      font-size: 16px;
-      letter-spacing: 1em;
-      text-indent: 1em;
-      text-align: center;
-  }
+    input {
+        text-transform: uppercase;
+        font-size: 16px;
+        letter-spacing: 1em;
+        text-indent: 1em;
+        text-align: center;
+    }
 
-  .wrapper {
-      position: fixed;
-      left: 5%;
-      top: 5%;
-      display: inline-block;
-      border: 3px solid transparent;
-  }
+    .wrapper {
+        position: fixed;
+        left: 5%;
+        top: 5%;
+        display: inline-block;
+        border: 3px solid transparent;
+    }
 </style>
