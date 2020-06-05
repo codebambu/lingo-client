@@ -1,4 +1,4 @@
-# lingo
+# lingo-client
 
 ## Project setup
 ```
